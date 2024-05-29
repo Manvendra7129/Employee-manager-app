@@ -1,0 +1,68 @@
+@import url("https://fonts.googleapis.com/css2?family=Homenaje&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+.container9 {
+  width: 60vw;
+  margin-top: 10vh;
+  padding: 20px;
+  border-radius: 10px;
+  height: 80vh;
+  color: blue;
+}
+.down8 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 5vw;
+  color: blue;
+  overflow-y: scroll;
+  margin-top: 3vh;
+  padding-top: 3vh;
+}
+
+.header h1 {
+  color: blue;
+  text-align: center;
+}
+table {
+  color: blue;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+th,
+td {
+  color: blue;
+  padding: 10px;
+  border: 1px solid #000000;
+  text-align: left;
+}
+th {
+  background-color: #000000;
+  color: blue;
+}
+
+.sala {
+  color: blue;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+.sign {
+  color: blue;
+  margin-top: 7vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.sign p {
+  color: blue;
+  text-decoration: underline;
+}
+.download {
+  color: blue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.hide-for-pdf {
+  display: none;
+}
