@@ -1,6 +1,7 @@
-// Navbar.js
+
 import React from "react";
 import "./NavbarLeftSide.css";
+import { CiLogout } from "react-icons/ci";
 
 const Navbar = () => {
   return (
@@ -8,7 +9,7 @@ const Navbar = () => {
       <p style={{ fontSize: "40px", fontFamily: "poppins", fontWeight: "400" }}>
         EMPLOYEE MANAGEMENT SYSTEM
       </p>
-      <button className="btn">Logout</button>
+      <button className="logout"><CiLogout /></button>
     </div>
   );
 };

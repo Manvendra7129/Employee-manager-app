@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import "./Admin.css";
 import { CiEdit } from "react-icons/ci";
@@ -164,6 +165,7 @@ const Admin = () => {
               placeholder="Search by name or ID"
               value={searchQuery}
               onChange={handleSearchChange}
+              style={{border:"1px solid black" ,borderRadius:"10px",padding: "0 10px" ,marginLeft:"10px"}}
             />
             <div className="table-container">
               <table className="employee-table">

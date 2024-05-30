@@ -4,9 +4,10 @@ import { CiEdit } from "react-icons/ci";
 import { MdDeleteOutline } from "react-icons/md";
 import Navbar from "../NavLeft/Navbar";
 import LeftSide from "../NavLeft/Leftside";
-import { Link } from "react-router-dom";
+import { Link ,useNavigate } from "react-router-dom";
 
 const PayslipTable = () => {
+  const Navigate = useNavigate();
   const [searchText, setSearchText] = useState("");
   const [filteredData, setFilteredData] = useState([]);
 
@@ -33,7 +34,33 @@ const PayslipTable = () => {
       allowances: "Software Engineer",
       netsal: "Full-time",
     },
+    {
+      id: 3,
+      employeeId: "22",
+      ctc: "50000",
+      basicsal: "ABCD0123456",
+      pf: "1234 5678 9012",
+      hra: "ABCDE1234F",
+      tds: "Example Corp",
+      allowances: "Software Engineer",
+      netsal: "Full-time",
+    },
+    {
+      id: 4,
+      employeeId: "22",
+      ctc: "50000",
+      basicsal: "ABCD0123456",
+      pf: "1234 5678 9012",
+      hra: "ABCDE1234F",
+      tds: "Example Corp",
+      allowances: "Software Engineer",
+      netsal: "Full-time",
+    },
   ];
+
+  const addEmp = () => {
+    Navigate(`/form`);
+  };
 
   const handleSearch = (value) => {
     setSearchText(value);
@@ -59,12 +86,13 @@ const PayslipTable = () => {
             <div className="search-bar">
               <input
                 type="text"
-                placeholder="Search by ID or Employee ID"
+                placeholder="Search by name or ID"
                 value={searchText}
                 onChange={(e) => handleSearch(e.target.value)}
+                style={{border:"1px solid black" ,borderRadius:"10px",padding: "0 10px" ,marginLeft:"10px"}}
               />
             </div>
-            <div className="table-container">
+            <div className="table-container tc1">
               <table className="employee-table">
                 <thead>
                   <tr>
@@ -108,7 +136,9 @@ const PayslipTable = () => {
               </table>
             </div>
             <div className="addEmp">
-              <button className="btn">Add Employee</button>
+              <button className="btn" onClick={addEmp}>
+                Add Employee
+              </button>
             </div>
           </div>
         </div>

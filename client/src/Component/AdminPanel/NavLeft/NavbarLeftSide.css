@@ -15,6 +15,15 @@
       justify-content: center;
       align-items: center;
   }
+ .logout{
+    position: absolute;
+    background: black;
+    color: white;
+    border: none;
+    margin-left: 1400px;
+    font-size: 45px;
+    margin-top: 10px;
+ }
   .left {
       display: grid;
       grid-template-rows: repeat(5, 1fr);

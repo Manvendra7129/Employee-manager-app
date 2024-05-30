@@ -72,13 +72,14 @@ const Payslip = () => {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className="download">
+          <div className="download">
         <button className="btn" onClick={handleDownload}>
           Download
         </button>
       </div>
+        </div>
+      </div>
+      
     </div>
   );
 };

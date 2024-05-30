@@ -4,11 +4,16 @@ import { CiEdit } from "react-icons/ci";
 import { MdDeleteOutline } from "react-icons/md";
 import Navbar from "../NavLeft/Navbar";
 import LeftSide from "../NavLeft/Leftside";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
+
 
 const Protable = () => {
+  const Navigate = useNavigate();
+
+ 
   const [searchText, setSearchText] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  
 
   const data = [
     {
@@ -73,8 +78,8 @@ const Protable = () => {
     },
   ];
 
-  const addEmp = (id) => {
-    Navigate(`/projectUpdate/${id}`);
+  const addEmp = () => {
+    Navigate(`/form`);
   };
 
   const handleSearch = (event) => {
@@ -103,17 +108,18 @@ const Protable = () => {
             </div>
 
             <div className="search-container">
-              <label htmlFor="search">Search by ID or Employee ID: </label>
+              
               <input
                 type="text"
                 id="search"
                 value={searchText}
                 onChange={handleSearch}
-                placeholder="Enter ID or Employee ID to search"
+                placeholder="Search by name or ID "
+                style={{border:"1px solid black" ,borderRadius:"10px",padding: "0 10px" ,marginLeft:"10px"}}
               />
             </div>
 
-            <div className="table-container">
+            <div className="table-container tc1">
               <table className="employee-table">
                 <thead>
                   <tr>

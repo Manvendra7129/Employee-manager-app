@@ -3,8 +3,10 @@ import "./Project.css";
 import Navbar from "../NavLeft/Navbar";
 import LeftSide from "../NavLeft/Leftside";
 import { Link } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Project = () => {
+  const Navigate = useNavigate();
   const [selectedStatus, setSelectedStatus] = useState("All");
   const projectsData = [
     {
@@ -108,12 +110,29 @@ const Project = () => {
       projectManager: "Lala Raam",
     },
   ];
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Assigned":
+        return "blue";
+      case "On Going":
+        return "green";
+      case "On Hold":
+        return "orange";
+      case "Completed":
+        return "purple";
+      default:
+        return "pink";
+    }
+  };
+
   const filteredProjects =
     selectedStatus === "All"
       ? projectsData
       : projectsData.filter((project) => project.status === selectedStatus);
+
   const addProj = () => {
-    console.log("heyyy");
+    Navigate("/addProject");
   };
 
   return (
@@ -126,29 +145,52 @@ const Project = () => {
           <div className="top">
             <button
               className="statu"
+              style={{
+                backgroundColor: getStatusColor("Assigned"),
+                color: "white",
+              }}
               onClick={() => setSelectedStatus("Assigned")}
             >
               Assigned
             </button>
             <button
               className="statu"
+              style={{
+                backgroundColor: getStatusColor("On Going"),
+                color: "white",
+              }}
               onClick={() => setSelectedStatus("On Going")}
             >
               On Going
             </button>
             <button
               className="statu"
+              style={{
+                backgroundColor: getStatusColor("On Hold"),
+                color: "white",
+              }}
               onClick={() => setSelectedStatus("On Hold")}
             >
               On Hold
             </button>
             <button
               className="statu"
+              style={{
+                backgroundColor: getStatusColor("Completed"),
+                color: "white",
+              }}
               onClick={() => setSelectedStatus("Completed")}
             >
               Completed
             </button>
-            <button className="statu" onClick={() => setSelectedStatus("All")}>
+            <button
+              className="statu"
+              style={{
+                backgroundColor: getStatusColor("All"),
+                color: "white",
+              }}
+              onClick={() => setSelectedStatus("All")}
+            >
               All
             </button>
             <button className="statu" onClick={addProj}>
@@ -189,7 +231,13 @@ const Project = () => {
                 </div>
                 <p>
                   Status:{" "}
-                  <span className="status" style={{ fontWeight: 400 }}>
+                  <span
+                    className="status"
+                    style={{
+                      fontWeight: 400,
+                      backgroundColor: getStatusColor(project.status),
+                    }}
+                  >
                     {project.status}
                   </span>
                 </p>
@@ -210,7 +258,7 @@ const Project = () => {
                   </p>
                 </div>
                 <div id="btn">
-                  <Link to={`/editProject/${project.id}`}>
+                  <Link to="/editProject">
                     <button className="btn">Edit</button>
                   </Link>
                   <button className="btn">Delete</button>
