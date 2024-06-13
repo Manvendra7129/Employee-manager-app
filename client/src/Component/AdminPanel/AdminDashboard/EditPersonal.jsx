@@ -1,56 +1,45 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, { useRef } from "react";
 import Navbar from "../NavLeft/Navbar";
 import LeftSide from "../NavLeft/Leftside";
+import axios from "axios";
 
 const EditPersonal = () => {
-  const { id } = useParams(); // Get the employee ID from the URL
-  const [employee, setEmployee] = useState({
-    employeeId: "",
-    name: "",
-    emailid: "",
-    password: "",
-    number: "",
-    age: "",
-    gender: "",
-    image: "",
-    manager: "",
-  });
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // Fetch the employee data based on the ID
-    const fetchEmployee = async () => {
-      try {
-        const response = await axios.get(`YOUR_API_ENDPOINT/${id}`);
-        setEmployee(response.data);
-      } catch (error) {
-        console.error("Error fetching the employee data", error);
-      }
-    };
-
-    fetchEmployee();
-  }, [id]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEmployee((prevEmployee) => ({
-      ...prevEmployee,
-      [name]: value,
-    }));
+  const employee = {
+    id: useRef(),
+    reportingManager: useRef(),
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const { id, ...employeeData } = employee;
-      await axios.put(`localhost:8080/${id}`, employeeData);
+  const update = async () => {
+    const formData = {
+      id: employee.id.current.value,
+      reportingManager: employee.reportingManager.current.value,
+    };
 
-      navigate("/admin");
+    try {
+      const response = await axios.put(
+        `http://localhost:1111/updateemployee/${formData.id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      );
+
+      console.log('Employee updated successfully:', response.data);
+  
     } catch (error) {
-      console.error("Error updating the employee data", error);
+      console.error('Error updating employee:', error);
+
+     
+      if (error.response && error.response.status === 401) {
+        console.error('Unauthorized access. Please check your token or login again.');
+      } else if (error.response && error.response.status >= 400) {
+    
+        console.error('Error:', error.response.data);
+      } else {
+        console.error('Unknown error:', error);
+      }
     }
   };
 
@@ -65,117 +54,29 @@ const EditPersonal = () => {
               <h1>Employee Personal Details</h1>
             </div>
             <div className="card4">
-              <p
-                style={{
-                  fontSize: "25px",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                }}
-              >
+              <p style={{ fontSize: "25px", fontWeight: "bold", textAlign: "center" }}>
                 Employee
               </p>
-              <form onSubmit={handleSubmit}>
-                <div className="inputCon">
-                  <p style={{ fontWeight: "600", marginRight: "5px" }}>
-                    Employee Id:
-                  </p>
-                  <input
-                    type="number"
-                    name="employeeId"
-                    value={employee.employeeId}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="inputCon">
-                  <p style={{ fontWeight: "600", marginRight: "5px" }}>Name:</p>
-                  <input
-                    type="text"
-                    name="name"
-                    value={employee.name}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="inputCon">
-                  <p style={{ fontWeight: "600", marginRight: "5px" }}>
-                    Email Id:
-                  </p>
-                  <input
-                    type="email"
-                    name="emailid"
-                    value={employee.emailid}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="inputCon">
-                  <p style={{ fontWeight: "600", marginRight: "5px" }}>
-                    Password:
-                  </p>
-                  <input
-                    type="password"
-                    name="password"
-                    value={employee.password}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="inputCon">
-                  <p style={{ fontWeight: "600", marginRight: "5px" }}>
-                    Number:
-                  </p>
-                  <input
-                    type="text"
-                    name="number"
-                    value={employee.number}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="inputCon">
-                  <p style={{ fontWeight: "600", marginRight: "5px" }}>Age:</p>
-                  <input
-                    type="number"
-                    name="age"
-                    value={employee.age}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="inputCon">
-                  <p style={{ fontWeight: "600", marginRight: "5px" }}>
-                    Gender:
-                  </p>
-                  <input
-                    type="text"
-                    name="gender"
-                    value={employee.gender}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="inputCon">
-                  <p style={{ fontWeight: "600", marginRight: "5px" }}>
-                    Image URL:
-                  </p>
-                  <input
-                    type="text"
-                    name="image"
-                    value={employee.image}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="inputCon">
-                  <p style={{ fontWeight: "600", marginRight: "5px" }}>
-                    Manager:
-                  </p>
-                  <input
-                    type="text"
-                    name="manager"
-                    value={employee.manager}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="update">
-                  <button className="btn" type="submit">
-                    Update
-                  </button>
-                </div>
-              </form>
+
+              <div className="inputCon">
+                <p style={{ fontWeight: "600", marginRight: "5px" }}>
+                  Employee Id:
+                </p>
+                <input type="number" ref={employee.id} />
+              </div>
+
+              <div className="inputCon">
+                <p style={{ fontWeight: "600", marginRight: "5px" }}>
+                  Reporting Manager:
+                </p>
+                <input type="text" id="manager" ref={employee.reportingManager} />
+              </div>
+
+              <div className="update">
+                <button className="btn" onClick={update}>
+                  Update
+                </button>
+              </div>
             </div>
           </div>
         </div>

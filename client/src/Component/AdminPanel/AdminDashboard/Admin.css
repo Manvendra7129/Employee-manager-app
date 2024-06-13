@@ -3,20 +3,19 @@
   border: none;
   padding: 10px;
   margin: 5px;
-      align-items: center;
+      /* align-items: center; */
       justify-content: left;
       flex-direction: row;
-      
-      padding-left: 10vw;
+      padding: 2vw;
 }
 .text2{
-  font-size: 50px;
+  font-size: 30px;
   display: flex;
   flex-direction: column;
   font-family: "poppins";
 }
 .main3{
-  margin-top: 22vh;
+  margin-top: 10vh;
   height: 50vh;
 }
 .addEmp1{

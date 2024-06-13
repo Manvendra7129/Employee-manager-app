@@ -1,103 +1,78 @@
-import React, { useState } from "react";
-import "./Pro.css";
-import { CiEdit } from "react-icons/ci";
-import { MdDeleteOutline } from "react-icons/md";
-import Navbar from "../NavLeft/Navbar";
-import LeftSide from "../NavLeft/Leftside";
-import { Link ,useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react'; // Import React and necessary hooks
+import './Pro.css';
+import { CiEdit } from 'react-icons/ci';
+import { MdDeleteOutline } from 'react-icons/md';
+import Navbar from '../NavLeft/Navbar';
+import LeftSide from '../NavLeft/Leftside';
+import { Link } from 'react-router-dom';
 
 const PayslipTable = () => {
-  const Navigate = useNavigate();
-  const [searchText, setSearchText] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
+  // State variables to manage data, loading state, and errors
+  const [data, setData] = useState([]); // Array to store fetched data
+  const [isLoading, setIsLoading] = useState(false); // Flag for loading state
+  const [error, setError] = useState(null); // Holds any error message
 
-  const data = [
-    {
-      id: 1,
-      employeeId: "11",
-      ctc: "50000",
-      basicsal: "ABCD0123456",
-      pf: "1234 5678 9012",
-      hra: "ABCDE1234F",
-      tds: "Example Corp",
-      allowances: "Software Engineer",
-      netsal: "Full-time",
-    },
-    {
-      id: 2,
-      employeeId: "22",
-      ctc: "50000",
-      basicsal: "ABCD0123456",
-      pf: "1234 5678 9012",
-      hra: "ABCDE1234F",
-      tds: "Example Corp",
-      allowances: "Software Engineer",
-      netsal: "Full-time",
-    },
-    {
-      id: 3,
-      employeeId: "22",
-      ctc: "50000",
-      basicsal: "ABCD0123456",
-      pf: "1234 5678 9012",
-      hra: "ABCDE1234F",
-      tds: "Example Corp",
-      allowances: "Software Engineer",
-      netsal: "Full-time",
-    },
-    {
-      id: 4,
-      employeeId: "22",
-      ctc: "50000",
-      basicsal: "ABCD0123456",
-      pf: "1234 5678 9012",
-      hra: "ABCDE1234F",
-      tds: "Example Corp",
-      allowances: "Software Engineer",
-      netsal: "Full-time",
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true); // Set loading state to true
+      setError(null); // Clear any previous errors
 
-  const addEmp = () => {
-    Navigate(`/form`);
-  };
+      try {
+        // Fetch data from the backend API
+        const response = await fetch('http://localhost:1111/viewAllFinances', {
+          // Here's where you add your JWT authentication headers:
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`, // Replace with your JWT token retrieval logic
+          },
+        });
 
-  const handleSearch = (value) => {
-    setSearchText(value);
-    const filtered = data.filter((employee) => {
-      return (
-        employee.id.toString().includes(value) ||
-        employee.employeeId.includes(value)
-      );
-    });
-    setFilteredData(filtered);
-  };
+        if (!response.ok) { // Check for successful response
+          throw new Error(`Error fetching data: ${response.statusText}`);
+        }
 
+        const responseData = await response.json(); // Parse the JSON response
+        setData(responseData); // Update the data state
+      } catch (error) {
+        setError(error.message); // Set error message in state
+        console.error('Error fetching data:', error); // Log the error for debugging
+      } finally {
+        setIsLoading(false); // Set loading state to false
+      }
+    };
+
+    fetchData(); // Call the fetchData function on component mount
+  }, []); // Empty dependency array ensures fetchData runs only once
+
+  // Display loading message while data is being fetched
+  if (isLoading) {
+    return <p>Loading data...</p>;
+  }
+
+  // Display error message if there's an error
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
+
+  // Render the table with fetched data
   return (
     <div>
       <div className="parent">
-        <Navbar />
-        <LeftSide />
+        <Navbar></Navbar>
+        <LeftSide></LeftSide>
         <div className="main1">
           <div className="down2">
             <div className="pro">
               <h1>Employee Finances Details</h1>
             </div>
-            <div className="search-bar">
-              <input
-                type="text"
-                placeholder="Search by name or ID"
-                value={searchText}
-                onChange={(e) => handleSearch(e.target.value)}
-                style={{border:"1px solid black" ,borderRadius:"10px",padding: "0 10px" ,marginLeft:"10px"}}
-              />
-            </div>
-            <div className="table-container tc1">
+            <div className="table-container">
               <table className="employee-table">
                 <thead>
                   <tr>
-                    <th>ID</th>
                     <th>Employee ID</th>
+                    <th>Account Number</th>
+                    <th>Bank Name</th>
+                    <th>Ifsc Code</th>
+                    {/* <th>Pan Card</th> */}
                     <th>CTC</th>
                     <th>Basic Salary</th>
                     <th>PF</th>
@@ -109,19 +84,22 @@ const PayslipTable = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {(searchText === "" ? data : filteredData).map((employee) => (
+                  {data.map(employee => (
                     <tr key={employee.id}>
                       <td>{employee.id}</td>
-                      <td>{employee.employeeId}</td>
+                      <td>{employee.accountNumber}</td>
+                      <td>{employee.bankName}</td>
+                      <td>{employee.ifscCode}</td>
+                      {/* <td>{employee.panCard}</td> */}
                       <td>{employee.ctc}</td>
-                      <td>{employee.basicsal}</td>
+                      <td>{employee.basicsalary}</td>
                       <td>{employee.pf}</td>
                       <td>{employee.hra}</td>
                       <td>{employee.tds}</td>
                       <td>{employee.allowances}</td>
-                      <td>{employee.netsal}</td>
+                      <td>{employee.net_salary}</td>
                       <td className="action-buttons">
-                        <Link to="/eidtFin">
+                        <Link to="/admin/payslipEdit">
                           <button id="edit">
                             <CiEdit />
                           </button>
@@ -134,12 +112,9 @@ const PayslipTable = () => {
                   ))}
                 </tbody>
               </table>
+              
             </div>
-            <div className="addEmp">
-              <button className="btn" onClick={addEmp}>
-                Add Employee
-              </button>
-            </div>
+            
           </div>
         </div>
       </div>

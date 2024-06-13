@@ -86,10 +86,10 @@ box-shadow:  -5px -5px 15px #bdbdbdad,
       padding-left: 10vw;
 }
 .text1{
-      font-size: 50px;
+      font-size: 25px;
       display: flex;
       flex-direction: column;
-      gap: 4vh;
+      gap: 1.5vh;
       font-family: "poppins";
 }
 .text1 p:first-child {
@@ -103,13 +103,10 @@ box-shadow:  -5px -5px 15px #bdbdbdad,
   
   }
   
-  .down-left, .down-right {
-     
-  }
+ 
   
   .down-left p {
-    font-size: 22px;
-    font-weight: bold; 
+    font-size: 20px;
     margin-bottom: 5px; 
     color: #333;
   }
